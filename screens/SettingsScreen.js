@@ -1,11 +1,11 @@
 import React from 'react';
-import { List, Divider, Switch, Checkbox, TouchableRipple, Text } from 'react-native-paper';
+import { List, Divider, Switch, Checkbox, TouchableRipple, useTheme } from 'react-native-paper';
 import { PreferencesContext } from '../shared/PreferencesContext';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as WebBrowser from 'expo-web-browser';
 
 
 const SettingsScreen = () => {
+    const theme = useTheme();
     const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
     const [textsChecked, setTextsChecked] = React.useState(false);
     const [pushChecked, setPushChecked] = React.useState(false);
@@ -14,65 +14,90 @@ const SettingsScreen = () => {
     }
 
     return (
-        <List.Section>
-            <List.Subheader>Visualization</List.Subheader>
-            <List.Item title='Dark Mode' right={() =>
-                <Switch
-                    color={'#BB86FC'}
-                    value={isThemeDark}
-                    onValueChange={toggleTheme}
-                />}
-            />
+        <List.AccordionGroup>
+            <List.Accordion
+                title='Visualization'
+                left={props => <List.Icon {...props} icon='sunglasses' />}
+                id="1">
+                <List.Item title='Dark Mode' right={() =>
+                    <Switch
+                        value={isThemeDark}
+                        onValueChange={toggleTheme}
+                    />}
+                />
+            </List.Accordion>
             <Divider bold={true} />
-            <List.Subheader>Notifications</List.Subheader>
-            <List.Item title='SMS' right={() =>
-                <Checkbox
-                    status={textsChecked ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                        setTextsChecked(!textsChecked);
-                    }}
-                />}
-            />
-            <List.Item title='Push' right={() =>
-                <Checkbox
-                    status={pushChecked ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                        setPushChecked(!pushChecked);
-                    }}
-                />}
-            />
+            <List.Accordion
+                title='Notifications'
+                left={props => <List.Icon {...props} icon='music-box-multiple' />}
+                id="2">
+                <List.Item title='SMS' right={() =>
+                    <Checkbox
+                        status={textsChecked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            setTextsChecked(!textsChecked);
+                            console.log('SMS Notifications');
+                        }}
+                    />}
+                />
+                <List.Item title='Push' right={() =>
+                    <Checkbox
+                        status={pushChecked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                            setPushChecked(!pushChecked);
+                            console.log('Push Notifications');
+                        }}
+                    />}
+                />
+            </List.Accordion>
             <Divider bold={true} />
-            <List.Subheader>Account</List.Subheader>
-            <List.Item title='Change Password' />
-            <List.Item title='Logout' />
+            <List.Accordion
+                title='Account'
+                left={props => <List.Icon {...props} icon='account-music' />}
+                id="3">
+                <TouchableRipple
+                    onPress={() => console.log('Change Password')}
+                >
+                    <List.Item title='Change Password' left={props =>
+                        <List.Icon {...props} icon='form-textbox-password' />}
+                    />
+                </TouchableRipple>
+                <TouchableRipple
+                    onPress={() => console.log('Logout')}
+                >
+                    <List.Item title='Logout' titleStyle={{ color: theme.colors.error }} left={props =>
+                        <List.Icon {...props}
+                        color={theme.colors.error}
+                        icon='logout' />}
+                    />
+                </TouchableRipple>
+            </List.Accordion>
             <Divider bold={true} />
-            <List.Subheader>Help & Policies</List.Subheader>
-            <List.Item title='Contact Us' />
-            <TouchableRipple
-                onPress={() => handlePress('https://wcatbb.github.io/reactBCFMC/terms.html')}
-                rippleColor="rgba(0, 0, 0, .32)"
-            >
-                <List.Item title='Terms and Conditions' right={() =>
-                <Ionicons
-                    name='chevron-forward'
-                    size={24}
-                    color='#BB86FC'
-                />}
-            />
-            </TouchableRipple>
-            <TouchableRipple
-                onPress={() => handlePress('https://wcatbb.github.io/reactBCFMC/privacy.html')}
-                rippleColor="rgba(0, 0, 0, .32)"
-            >
-            <List.Item title='Privacy Policy' right={() =>
-                <Ionicons
-                    name='chevron-forward'
-                    size={24}
-                    color='#BB86FC'
-                />}
-            />
-            </TouchableRipple>
-        </List.Section>
+            <List.Accordion
+                title='Help & Policies'
+                left={props => <List.Icon {...props} icon='music-clef-treble' />}
+                id="4">
+                <TouchableRipple
+                    onPress={() => console.log('Contact Us')}
+                >
+                    <List.Item title='Contact Us' />
+                </TouchableRipple>
+                <TouchableRipple
+                    onPress={() => handlePress('https://wcatbb.github.io/reactBCFMC/terms.html')}
+                >
+                    <List.Item title='Terms and Conditions' right={props =>
+                        <List.Icon {...props} icon='chevron-right' />}
+                    />
+                </TouchableRipple>
+                <TouchableRipple
+                    onPress={() => handlePress('https://wcatbb.github.io/reactBCFMC/privacy.html')}
+                >
+                    <List.Item title='Privacy Policy' right={props =>
+                        <List.Icon {...props} icon='chevron-right' />}
+                    />
+                </TouchableRipple>
+            </List.Accordion>
+        </List.AccordionGroup>
     )
 }
 

@@ -1,4 +1,4 @@
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import {
     Card,
     Title,
@@ -42,6 +42,12 @@ const Details = (props) => {
     )
 };
 
+const Events = () => {
+    return (
+        <Text>Events!</Text>
+    )
+};
+
 const Profile = () => {
     return (
         <Text>Profile!</Text>
@@ -77,6 +83,17 @@ const SettingsStackScreen = () => (
     </SettingsStack.Navigator>
 );
 
+const EventsStack = createStackNavigator();
+
+const EventsStackScreen = () => (
+    <ProfileStack.Navigator
+        screenOptions={{
+            header: (props) => <Header {...props} />
+        }}>
+        <ProfileStack.Screen name='Events' component={Events} />
+    </ProfileStack.Navigator>
+);
+
 const ProfileStack = createStackNavigator();
 
 const ProfileStackScreen = () => (
@@ -99,22 +116,27 @@ const Main = () => {
                         iconName = focused
                             ? 'trophy'
                             : 'trophy-outline';
+                    } else if (route.name === 'EVENTS') {
+                        iconName = focused
+                            ? 'qr-code'
+                            : 'qr-code-outline';
                         } else if (route.name === 'PROFILE') {
                             iconName = focused
                                 ? 'person'
                                 : 'person-outline';
-                        } else if (route.name === 'SETTINGS') {
+                    } else if (route.name === 'SETTINGS') {
                         iconName = focused
                             ? 'settings'
                             : 'settings-outline';
-                        }
+                    }
 
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={24} color={color} />;
-                }
+                },
             })}
         >
             <Tab.Screen name='HOME' component={HomeStackScreen} />
+            <Tab.Screen name='EVENTS' component={EventsStackScreen} />
             <Tab.Screen name='PROFILE' component={ProfileStackScreen} />
             <Tab.Screen name='SETTINGS' component={SettingsStackScreen} />
         </Tab.Navigator>
