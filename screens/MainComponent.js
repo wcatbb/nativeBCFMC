@@ -10,6 +10,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
+import EntryScreen from './EntryScreen';
 import SettingsScreen from './SettingsScreen';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -42,9 +43,9 @@ const Details = (props) => {
     )
 };
 
-const Events = () => {
+const Entry = () => {
     return (
-        <Text>Events!</Text>
+        <EntryScreen />
     )
 };
 
@@ -83,14 +84,14 @@ const SettingsStackScreen = () => (
     </SettingsStack.Navigator>
 );
 
-const EventsStack = createStackNavigator();
+const EntryStack = createStackNavigator();
 
-const EventsStackScreen = () => (
+const EntryStackScreen = () => (
     <ProfileStack.Navigator
         screenOptions={{
             header: (props) => <Header {...props} />
         }}>
-        <ProfileStack.Screen name='Events' component={Events} />
+        <ProfileStack.Screen name='Entry' component={Entry} />
     </ProfileStack.Navigator>
 );
 
@@ -116,14 +117,14 @@ const Main = () => {
                         iconName = focused
                             ? 'trophy'
                             : 'trophy-outline';
-                    } else if (route.name === 'EVENTS') {
+                    } else if (route.name === 'ENTRY') {
                         iconName = focused
                             ? 'qr-code'
                             : 'qr-code-outline';
-                        } else if (route.name === 'PROFILE') {
-                            iconName = focused
-                                ? 'person'
-                                : 'person-outline';
+                    } else if (route.name === 'PROFILE') {
+                        iconName = focused
+                            ? 'person'
+                            : 'person-outline';
                     } else if (route.name === 'SETTINGS') {
                         iconName = focused
                             ? 'settings'
@@ -136,7 +137,7 @@ const Main = () => {
             })}
         >
             <Tab.Screen name='HOME' component={HomeStackScreen} />
-            <Tab.Screen name='EVENTS' component={EventsStackScreen} />
+            <Tab.Screen name='ENTRY' component={EntryStackScreen} />
             <Tab.Screen name='PROFILE' component={ProfileStackScreen} />
             <Tab.Screen name='SETTINGS' component={SettingsStackScreen} />
         </Tab.Navigator>

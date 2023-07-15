@@ -2,6 +2,7 @@ import React from 'react';
 import { List, Divider, Switch, Checkbox, TouchableRipple, useTheme } from 'react-native-paper';
 import { PreferencesContext } from '../shared/PreferencesContext';
 import * as WebBrowser from 'expo-web-browser';
+import * as MailComposer from 'expo-mail-composer';
 
 
 const SettingsScreen = () => {
@@ -9,8 +10,17 @@ const SettingsScreen = () => {
     const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
     const [textsChecked, setTextsChecked] = React.useState(false);
     const [pushChecked, setPushChecked] = React.useState(false);
+
     const handlePress = (href) => {
         WebBrowser.openBrowserAsync(href);
+    }
+
+    const sendMail = () => {
+        MailComposer.composeAsync({
+            recipients: ['admin@bcfmc.org'],
+            subject: 'Inquiry',
+            body: 'To whom it may concern:'
+        });
     }
 
     return (
@@ -78,7 +88,7 @@ const SettingsScreen = () => {
                 left={props => <List.Icon {...props} icon='music-clef-treble' />}
                 id="4">
                 <TouchableRipple
-                    onPress={() => console.log('Contact Us')}
+                    onPress={() => sendMail()}
                 >
                     <List.Item title='Contact Us' />
                 </TouchableRipple>
